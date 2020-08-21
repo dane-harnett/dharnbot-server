@@ -1,6 +1,7 @@
 import express from "express";
 import { createServer } from "http";
 import socketio from "socket.io";
+import tmi from "tmi.js";
 
 require("dotenv").config();
 
@@ -14,6 +15,30 @@ app.get("/", (_req, res) => {
 
 io.on("connection", (_socket) => {
   console.log("a client connected to socket");
+});
+
+const client = new tmi.Client({
+  options: { debug: true },
+  connection: {
+    secure: true,
+    reconnect: true,
+  },
+  identity: {
+    username: process.env.TMI_USERNAME,
+    password: process.env.TMI_OAUTH_TOKEN,
+  },
+  channels: [process.env.TMI_CHANNEL],
+});
+
+client.connect();
+
+client.on("message", (target, context, msg, self) => {
+  if (self) return;
+
+  const commandName = msg.trim();
+  if (commandName === "!hello") {
+    client.say(target, "Welcome!");
+  }
 });
 
 const port = process.env.PORT;
