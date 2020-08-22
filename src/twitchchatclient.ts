@@ -1,12 +1,10 @@
-import Tmi from "tmi.js";
-
 export default class TwitchChatClient {
   tmi: any;
   lastResponse: {
     channel: string;
     message: string;
   } | null;
-  constructor(tmi: any = Tmi) {
+  constructor(tmi: any) {
     this.tmi = tmi;
   }
   static createNull() {

@@ -1,6 +1,6 @@
-import TwitchChatClient from "./twitchchatclient";
+import TwitchChatClient from "./TwitchChatClient";
 
-export default class TwitchInfoCommands {
+export default class InfoCommands {
   twitchClient: TwitchChatClient;
   constructor(twitchClient: TwitchChatClient) {
     this.twitchClient = twitchClient;

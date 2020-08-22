@@ -1,10 +1,10 @@
 import TwitchChatClient from "../twitchchatclient";
-import TwitchInfoCommands from "../twitchinfocommands";
+import InfoCommands from "../InfoCommands";
 
 describe("twitch info commands", () => {
   it("responds with the current project", () => {
     const twitchClient = TwitchChatClient.createNull();
-    const twitchInfo = new TwitchInfoCommands(twitchClient);
+    const twitchInfo = new InfoCommands(twitchClient);
     twitchInfo.process("channel", "", "!project", false);
 
     expect(twitchClient.getLastResponse()?.channel).toBe("channel");
@@ -15,7 +15,7 @@ describe("twitch info commands", () => {
 
   it("responds with my github link", () => {
     const twitchClient = TwitchChatClient.createNull();
-    const twitchInfo = new TwitchInfoCommands(twitchClient);
+    const twitchInfo = new InfoCommands(twitchClient);
     twitchInfo.process("channel", "", "!github", false);
 
     expect(twitchClient.getLastResponse()?.channel).toBe("channel");
