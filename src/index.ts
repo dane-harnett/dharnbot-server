@@ -4,12 +4,13 @@ import socketio from "socket.io";
 import tmi from "tmi.js";
 import ObsWebSocket from "obs-websocket-js";
 
-import TwitchChatClient from "./twitchchatclient";
+import TwitchChatClient from "./TwitchChatClient";
 import InfoCommands from "./InfoCommands";
 import ObsCommands from "./ObsCommands";
-import ObsClient from "./obsclient";
+import ObsClient from "./ObsClient";
 
 require("dotenv").config();
+
 const main = async () => {
   const app = express();
   const http = createServer(app);
