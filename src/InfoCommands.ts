@@ -18,5 +18,11 @@ export default class InfoCommands {
         "https://github.com/dane-harnett/dharnbot-server"
       );
     }
+    if (msg === "!miro") {
+      this.twitchClient.say(
+        channel,
+        "https://miro.com/app/board/o9J_kqWtSsI=/"
+      );
+    }
   }
 }

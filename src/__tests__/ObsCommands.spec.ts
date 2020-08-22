@@ -1,4 +1,4 @@
-import ObsClient from "../obsclient";
+import ObsClient from "../ObsClient";
 import ObsCommands from "../ObsCommands";
 
 describe("twitch obs commands", () => {

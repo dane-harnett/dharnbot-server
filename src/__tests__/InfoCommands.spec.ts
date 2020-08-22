@@ -1,4 +1,4 @@
-import TwitchChatClient from "../twitchchatclient";
+import TwitchChatClient from "../TwitchChatClient";
 import InfoCommands from "../InfoCommands";
 
 describe("twitch info commands", () => {
@@ -21,6 +21,17 @@ describe("twitch info commands", () => {
     expect(twitchClient.getLastResponse()?.channel).toBe("channel");
     expect(twitchClient.getLastResponse()?.message).toBe(
       "https://github.com/dane-harnett/dharnbot-server"
+    );
+  });
+
+  it("responds with my miro link", () => {
+    const twitchClient = TwitchChatClient.createNull();
+    const twitchInfo = new InfoCommands(twitchClient);
+    twitchInfo.process("channel", "", "!miro", false);
+
+    expect(twitchClient.getLastResponse()?.channel).toBe("channel");
+    expect(twitchClient.getLastResponse()?.message).toBe(
+      "https://miro.com/app/board/o9J_kqWtSsI=/"
     );
   });
 });
