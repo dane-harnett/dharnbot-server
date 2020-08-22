@@ -3,6 +3,9 @@ import { createServer } from "http";
 import socketio from "socket.io";
 import tmi from "tmi.js";
 
+import TwitchChatClient from "./twitchchatclient";
+import TwitchInfoCommands from "./twitchinfocommands";
+
 require("dotenv").config();
 
 const app = express();
@@ -32,13 +35,13 @@ const client = new tmi.Client({
 
 client.connect();
 
+const twitchChatClient = new TwitchChatClient(client);
+const twitchInfoCommands = new TwitchInfoCommands(twitchChatClient);
+
 client.on("message", (target, context, msg, self) => {
   if (self) return;
 
-  const commandName = msg.trim();
-  if (commandName === "!hello") {
-    client.say(target, "Welcome!");
-  }
+  twitchInfoCommands.process(target, context, msg, self);
 });
 
 const port = process.env.PORT;
