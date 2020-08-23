@@ -11,20 +11,11 @@ export default class ObsClient {
   async setSceneItemProperties(
     sceneName: string,
     itemName: string,
-    properties: { position: { x: number; y: number } }
+    properties: ObsWebSocket.SceneItemTransform
   ) {
-    const data = await this.getSceneItemProperties(sceneName, itemName);
-
-    if (!data) {
-      return;
-    }
-
     await this.obsWebSocket?.send("SetSceneItemProperties", {
       "scene-name": sceneName,
       item: itemName,
-      bounds: data.bounds,
-      scale: data.scale,
-      crop: data.crop,
       ...properties,
     });
   }
@@ -40,11 +31,15 @@ class NullObsClient extends ObsClient {
   lastSetSceneItemProperties: any;
   constructor() {
     super(null);
+    this.lastSetSceneItemProperties = {
+      sourceHeight: 1080,
+      sourceWidth: 1920,
+    };
   }
   async setSceneItemProperties(
     _sceneName: string,
     _itemName: string,
-    properties: { position: { x: number; y: number } }
+    properties: ObsWebSocket.SceneItemTransform
   ) {
     this.lastSetSceneItemProperties = properties;
   }
