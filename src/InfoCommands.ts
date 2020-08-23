@@ -5,7 +5,12 @@ export default class InfoCommands {
   constructor(twitchClient: TwitchChatClient) {
     this.twitchClient = twitchClient;
   }
-  process(channel: string, _tags: string, msg: string, _self: boolean) {
+  process(
+    channel: string,
+    tags: { badges?: { broadcaster: "1" | "0" }; mod: boolean },
+    msg: string,
+    _self: boolean
+  ) {
     if (msg === "!project") {
       this.twitchClient.say(
         channel,
@@ -22,6 +27,34 @@ export default class InfoCommands {
       this.twitchClient.say(
         channel,
         "https://miro.com/app/board/o9J_kqWtSsI=/"
+      );
+    }
+    if (msg === "!youdoneyet") {
+      this.twitchClient.say(
+        channel,
+        "https://youdoneyet.vercel.app/ is the production URL for You Done Yet"
+      );
+    }
+    if (msg === "!youtube") {
+      this.twitchClient.say(
+        channel,
+        "https://www.youtube.com/channel/UClyesSRrwmQ_LDlxanwVRHg"
+      );
+    }
+    if (msg === "!schedule") {
+      this.twitchClient.say(
+        channel,
+        "I stream in AEST / GMT+10 timezone. Friday 1800, Saturday 1200, Sunday 1200"
+      );
+    }
+    if (
+      msg.substring(0, 4) === "!so " &&
+      (tags.badges?.broadcaster === "1" || tags.mod)
+    ) {
+      const username = msg.split(" ")[1];
+      this.twitchClient.say(
+        channel,
+        `Shoutout to friend of the stream - ${username} over at https://twitch.tv/${username}!`
       );
     }
   }
