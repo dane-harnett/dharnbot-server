@@ -5,7 +5,7 @@ describe("twitch obs commands", () => {
   it("moves the cam to top-left", async () => {
     const obsClient = ObsClient.createNull();
     const twitchObs = new ObsCommands(obsClient);
-    await twitchObs.process("channel", "", "!cam top-left", false);
+    await twitchObs.process("channel", { mod: false }, "!cam top-left", false);
     const sceneName = "Info Bar Top";
     const itemName = "Webcam";
     const props = obsClient.getSceneItemProperties(sceneName, itemName);
@@ -16,7 +16,7 @@ describe("twitch obs commands", () => {
   it("moves the cam to top-right", async () => {
     const obsClient = ObsClient.createNull();
     const twitchObs = new ObsCommands(obsClient);
-    await twitchObs.process("channel", "", "!cam top-right", false);
+    await twitchObs.process("channel", { mod: false }, "!cam top-right", false);
     const sceneName = "Info Bar Top";
     const itemName = "Webcam";
     const props = obsClient.getSceneItemProperties(sceneName, itemName);
@@ -27,7 +27,12 @@ describe("twitch obs commands", () => {
   it("moves the cam to bottom-left", async () => {
     const obsClient = ObsClient.createNull();
     const twitchObs = new ObsCommands(obsClient);
-    await twitchObs.process("channel", "", "!cam bottom-left", false);
+    await twitchObs.process(
+      "channel",
+      { mod: false },
+      "!cam bottom-left",
+      false
+    );
     const sceneName = "Info Bar Top";
     const itemName = "Webcam";
     const props = obsClient.getSceneItemProperties(sceneName, itemName);
@@ -38,7 +43,12 @@ describe("twitch obs commands", () => {
   it("moves the cam to bottom-right", async () => {
     const obsClient = ObsClient.createNull();
     const twitchObs = new ObsCommands(obsClient);
-    await twitchObs.process("channel", "", "!cam bottom-right", false);
+    await twitchObs.process(
+      "channel",
+      { mod: false },
+      "!cam bottom-right",
+      false
+    );
     const sceneName = "Info Bar Top";
     const itemName = "Webcam";
     const props = obsClient.getSceneItemProperties(sceneName, itemName);
@@ -50,7 +60,7 @@ describe("twitch obs commands", () => {
   it("zooms the cam to 100%", async () => {
     const obsClient = ObsClient.createNull();
     const twitchObs = new ObsCommands(obsClient);
-    await twitchObs.process("channel", "", "!cam zoom 100%", false);
+    await twitchObs.process("channel", { mod: false }, "!cam zoom 100%", false);
     const sceneName = "Info Bar Top";
     const itemName = "Webcam";
     const props = obsClient.getSceneItemProperties(sceneName, itemName);
@@ -67,7 +77,7 @@ describe("twitch obs commands", () => {
   it("zooms the cam to 150%", async () => {
     const obsClient = ObsClient.createNull();
     const twitchObs = new ObsCommands(obsClient);
-    await twitchObs.process("channel", "", "!cam zoom 150%", false);
+    await twitchObs.process("channel", { mod: false }, "!cam zoom 150%", false);
     const sceneName = "Info Bar Top";
     const itemName = "Webcam";
     const props = obsClient.getSceneItemProperties(sceneName, itemName);
@@ -84,7 +94,7 @@ describe("twitch obs commands", () => {
   it("zooms the cam to 200%", async () => {
     const obsClient = ObsClient.createNull();
     const twitchObs = new ObsCommands(obsClient);
-    await twitchObs.process("channel", "", "!cam zoom 200%", false);
+    await twitchObs.process("channel", { mod: false }, "!cam zoom 200%", false);
     const sceneName = "Info Bar Top";
     const itemName = "Webcam";
     const props = obsClient.getSceneItemProperties(sceneName, itemName);

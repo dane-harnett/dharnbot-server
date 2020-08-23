@@ -5,7 +5,7 @@ describe("twitch info commands", () => {
   it("responds with the current project", () => {
     const twitchClient = TwitchChatClient.createNull();
     const twitchInfo = new InfoCommands(twitchClient);
-    twitchInfo.process("channel", "", "!project", false);
+    twitchInfo.process("channel", { mod: false }, "!project", false);
 
     expect(twitchClient.getLastResponse()?.channel).toBe("channel");
     expect(twitchClient.getLastResponse()?.message).toBe(
@@ -16,7 +16,7 @@ describe("twitch info commands", () => {
   it("responds with my github link", () => {
     const twitchClient = TwitchChatClient.createNull();
     const twitchInfo = new InfoCommands(twitchClient);
-    twitchInfo.process("channel", "", "!github", false);
+    twitchInfo.process("channel", { mod: false }, "!github", false);
 
     expect(twitchClient.getLastResponse()?.channel).toBe("channel");
     expect(twitchClient.getLastResponse()?.message).toBe(
@@ -27,7 +27,7 @@ describe("twitch info commands", () => {
   it("responds with my miro link", () => {
     const twitchClient = TwitchChatClient.createNull();
     const twitchInfo = new InfoCommands(twitchClient);
-    twitchInfo.process("channel", "", "!miro", false);
+    twitchInfo.process("channel", { mod: false }, "!miro", false);
 
     expect(twitchClient.getLastResponse()?.channel).toBe("channel");
     expect(twitchClient.getLastResponse()?.message).toBe(

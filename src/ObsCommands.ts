@@ -15,7 +15,12 @@ export default class ObsCommands {
     this.positionTimeout = undefined;
     this.zoomTimeout = undefined;
   }
-  async process(_channel: string, _tags: string, msg: string, _self: boolean) {
+  async process(
+    _channel: string,
+    _tags: { badges?: { broadcaster: "1" | "0" }; mod: boolean },
+    msg: string,
+    _self: boolean
+  ) {
     if (msg === "!cam top-left") {
       await this.applyCamPosition({
         x: 0,
@@ -149,13 +154,11 @@ export default class ObsCommands {
       return;
     }
 
-    const factor = 0;
-
     const crop = {
-      bottom: factor > 0 ? currentProperties.sourceHeight / (factor * 2) : 0,
-      top: factor > 0 ? currentProperties.sourceHeight / (factor * 2) : 0,
-      left: factor > 0 ? currentProperties.sourceWidth / (factor * 2) : 0,
-      right: factor > 0 ? currentProperties.sourceWidth / (factor * 2) : 0,
+      bottom: 0,
+      top: 0,
+      left: 0,
+      right: 0,
     };
     const properties = {
       ...currentProperties,
