@@ -57,7 +57,7 @@ export default class InfoCommands {
     if (msg === "!dharnbot repo") {
       this.twitchClient.say(
         channel,
-        "https://github.com/dane-harnett/dharnbot-server"
+        "https://github.com/dane-harnett/dharnbot-server and https://github.com/dane-harnett/dharnbot-client"
       );
     }
     if (msg === "!miro") {

@@ -30,7 +30,7 @@ describe("twitch info commands", () => {
 
     expect(twitchChatClient.getLastResponse()?.channel).toBe("channel");
     expect(twitchChatClient.getLastResponse()?.message).toBe(
-      "https://github.com/dane-harnett/dharnbot-server"
+      "https://github.com/dane-harnett/dharnbot-server and https://github.com/dane-harnett/dharnbot-client"
     );
   });
 
