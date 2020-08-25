@@ -30,7 +30,7 @@ const main = async () => {
     });
   });
 
-  const client = new tmi.Client({
+  const client = new (tmi.Client as any)({
     options: { debug: true },
     connection: {
       secure: true,
@@ -56,12 +56,15 @@ const main = async () => {
   const obsClient = new ObsClient(obsWebSocket);
   const obsCommands = new ObsCommands(obsClient);
 
-  client.on("message", (target, context, msg, self) => {
-    if (self) return;
+  client.on(
+    "message",
+    (target: string, context: any, msg: string, self: boolean) => {
+      if (self) return;
 
-    infoCommands.process(target, context, msg, self);
-    obsCommands.process(target, context, msg, self);
-  });
+      infoCommands.process(target, context, msg, self);
+      obsCommands.process(target, context, msg, self);
+    }
+  );
 
   const port = process.env.PORT;
   http.listen(port, () => {
