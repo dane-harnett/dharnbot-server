@@ -8,6 +8,7 @@ import TwitchChatClient from "./TwitchChatClient";
 import InfoCommands from "./InfoCommands";
 import ObsCommands from "./ObsCommands";
 import ObsClient from "./ObsClient";
+import EventEmitter from "./EventEmitter";
 
 require("dotenv").config();
 
@@ -20,8 +21,13 @@ const main = async () => {
     res.send("dharnbot-server");
   });
 
+  const eventEmitter = EventEmitter.create();
+
   io.on("connection", (_socket) => {
     console.log("a client connected to socket");
+    eventEmitter.on("INFO_PANEL", (data) => {
+      _socket.emit("INFO_PANEL", data);
+    });
   });
 
   const client = new tmi.Client({
@@ -40,7 +46,7 @@ const main = async () => {
   client.connect();
 
   const twitchChatClient = new TwitchChatClient(client);
-  const infoCommands = new InfoCommands(twitchChatClient);
+  const infoCommands = new InfoCommands(twitchChatClient, eventEmitter);
 
   const obsWebSocket = new ObsWebSocket();
   await obsWebSocket.connect({

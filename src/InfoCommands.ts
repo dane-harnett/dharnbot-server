@@ -1,9 +1,13 @@
 import TwitchChatClient from "./TwitchChatClient";
+// import { EventEmitter } from "events";
+import EventEmitter from "./EventEmitter";
 
 export default class InfoCommands {
   twitchClient: TwitchChatClient;
-  constructor(twitchClient: TwitchChatClient) {
+  eventEmitter: EventEmitter;
+  constructor(twitchClient: TwitchChatClient, eventEmitter: EventEmitter) {
     this.twitchClient = twitchClient;
+    this.eventEmitter = eventEmitter;
   }
   process(
     channel: string,
@@ -12,12 +16,45 @@ export default class InfoCommands {
     _self: boolean
   ) {
     if (msg === "!project") {
+      this.eventEmitter.emit("INFO_PANEL", { panel: "!project" });
+    }
+    if (msg === "!today") {
+      this.eventEmitter.emit("INFO_PANEL", { panel: "!today" });
+    }
+    if (msg === "!socials") {
+      this.eventEmitter.emit("INFO_PANEL", { panel: "!socials" });
+    }
+    if (msg === "!twitter") {
+      this.twitchClient.say(channel, "https://www.twitter.com/daneharnett");
+    }
+    if (msg === "!youtube") {
       this.twitchClient.say(
         channel,
-        "I'm building a twitch chatbot with commands to integrate with OBS, games and more. I'll be using TypeScript, Express and Jest."
+        "https://www.youtube.com/user/daneharnett"
       );
     }
-    if (msg === "!github") {
+    if (msg === "!cam") {
+      this.eventEmitter.emit("INFO_PANEL", { panel: "!cam" });
+    }
+    if (msg === "!youdoneyet") {
+      this.eventEmitter.emit("INFO_PANEL", { panel: "!youdoneyet" });
+    }
+    if (msg === "!youdoneyet repo") {
+      this.twitchClient.say(
+        channel,
+        "https://github.com/dane-harnett/youdoneyet"
+      );
+    }
+    if (msg === "!youdoneyet app") {
+      this.twitchClient.say(
+        channel,
+        "https://youdoneyet.vercel.app/ is the production URL for You Done Yet"
+      );
+    }
+    if (msg === "!dharnbot") {
+      this.eventEmitter.emit("INFO_PANEL", { panel: "!dharnbot" });
+    }
+    if (msg === "!dharnbot repo") {
       this.twitchClient.say(
         channel,
         "https://github.com/dane-harnett/dharnbot-server"
@@ -29,18 +66,7 @@ export default class InfoCommands {
         "https://miro.com/app/board/o9J_kqWtSsI=/"
       );
     }
-    if (msg === "!youdoneyet") {
-      this.twitchClient.say(
-        channel,
-        "https://youdoneyet.vercel.app/ is the production URL for You Done Yet"
-      );
-    }
-    if (msg === "!youtube") {
-      this.twitchClient.say(
-        channel,
-        "https://www.youtube.com/channel/UClyesSRrwmQ_LDlxanwVRHg"
-      );
-    }
+
     if (msg === "!schedule") {
       this.twitchClient.say(
         channel,
