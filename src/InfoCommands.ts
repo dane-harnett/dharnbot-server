@@ -1,6 +1,6 @@
 import TwitchChatClient from "./TwitchChatClient";
-// import { EventEmitter } from "events";
 import EventEmitter from "./EventEmitter";
+import ICommandData from "./interfaces/ICommandData";
 
 export default class InfoCommands {
   twitchClient: TwitchChatClient;
@@ -9,12 +9,11 @@ export default class InfoCommands {
     this.twitchClient = twitchClient;
     this.eventEmitter = eventEmitter;
   }
-  process(
-    channel: string,
-    tags: { badges?: { broadcaster: "1" | "0" }; mod: boolean },
-    msg: string,
-    _self: boolean
-  ) {
+  process(commandData: ICommandData) {
+    const {
+      message: { message: msg, channel, context },
+    } = commandData;
+
     if (msg === "!project") {
       this.eventEmitter.emit("INFO_PANEL", { panel: "!project" });
     }
@@ -73,9 +72,10 @@ export default class InfoCommands {
         "I stream in AEST / GMT+10 timezone. Friday 1800, Saturday 1200, Sunday 1200"
       );
     }
+
     if (
       msg.substring(0, 4) === "!so " &&
-      (tags.badges?.broadcaster === "1" || tags.mod)
+      (context.badges?.broadcaster === "1" || context.mod)
     ) {
       const username = msg.split(" ")[1];
       this.twitchClient.say(

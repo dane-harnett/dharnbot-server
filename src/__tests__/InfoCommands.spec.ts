@@ -16,7 +16,14 @@ const createInfoCommands = () => {
 describe("twitch info commands", () => {
   it("notifies the user interface of the project info panel event", () => {
     const { eventEmitter, infoCommands } = createInfoCommands();
-    infoCommands.process("channel", { mod: false }, "!project", false);
+    const commandData = {
+      message: {
+        channel: "channel",
+        context: { mod: false, username: "username" },
+        message: "!project",
+      },
+    };
+    infoCommands.process(commandData);
 
     expect(eventEmitter.getLastEmitted()).toEqual([
       "INFO_PANEL",
@@ -26,7 +33,14 @@ describe("twitch info commands", () => {
 
   it("responds with the dharnbot github link", () => {
     const { infoCommands, twitchChatClient } = createInfoCommands();
-    infoCommands.process("channel", { mod: false }, "!dharnbot repo", false);
+    const commandData = {
+      message: {
+        channel: "channel",
+        context: { mod: false, username: "username" },
+        message: "!dharnbot repo",
+      },
+    };
+    infoCommands.process(commandData);
 
     expect(twitchChatClient.getLastResponse()?.channel).toBe("channel");
     expect(twitchChatClient.getLastResponse()?.message).toBe(
@@ -36,7 +50,14 @@ describe("twitch info commands", () => {
 
   it("responds with my miro link", () => {
     const { infoCommands, twitchChatClient } = createInfoCommands();
-    infoCommands.process("channel", { mod: false }, "!miro", false);
+    const commandData = {
+      message: {
+        channel: "channel",
+        context: { mod: false, username: "username" },
+        message: "!miro",
+      },
+    };
+    infoCommands.process(commandData);
 
     expect(twitchChatClient.getLastResponse()?.channel).toBe("channel");
     expect(twitchChatClient.getLastResponse()?.message).toBe(

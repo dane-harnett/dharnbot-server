@@ -1,8 +1,10 @@
 import ObsWebSocket from "obs-websocket-js";
 import ObsClient from "./ObsClient";
+import ICommandData from "./interfaces/ICommandData";
 
 const camWidth = 400;
 const camHeight = 225;
+// todo: can we get the canvas dimensions from OBS?
 const canvasWidth = 1920;
 const canvasHeight = 1080;
 
@@ -15,12 +17,9 @@ export default class ObsCommands {
     this.positionTimeout = undefined;
     this.zoomTimeout = undefined;
   }
-  async process(
-    _channel: string,
-    _tags: { badges?: { broadcaster: "1" | "0" }; mod: boolean },
-    msg: string,
-    _self: boolean
-  ) {
+  async process(commandData: ICommandData) {
+    const msg = commandData.message.message;
+
     if (msg === "!cam top-left") {
       await this.applyCamPosition({
         x: 0,

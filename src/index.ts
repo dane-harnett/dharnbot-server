@@ -9,6 +9,7 @@ import InfoCommands from "./InfoCommands";
 import ObsCommands from "./ObsCommands";
 import ObsClient from "./ObsClient";
 import EventEmitter from "./EventEmitter";
+import TwitchClient from "./TwitchClient";
 
 require("dotenv").config();
 
@@ -16,6 +17,12 @@ const main = async () => {
   const app = express();
   const http = createServer(app);
   const io = socketio(http);
+
+  const twitchClient = new TwitchClient(
+    process.env.TWITCH_CLIENT_ID || "",
+    process.env.TWITCH_CLIENT_SECRET || ""
+  );
+  await twitchClient.authorize();
 
   app.get("/", (_req, res) => {
     res.send("dharnbot-server");
@@ -58,11 +65,24 @@ const main = async () => {
 
   client.on(
     "message",
-    (target: string, context: any, msg: string, self: boolean) => {
+    async (
+      channel: string,
+      context: {
+        badges?: { broadcaster: "1" | "0" };
+        mod: boolean;
+        username: string;
+      },
+      message: string,
+      self: boolean
+    ) => {
       if (self) return;
 
-      infoCommands.process(target, context, msg, self);
-      obsCommands.process(target, context, msg, self);
+      const user = await twitchClient.getUser(context.username);
+
+      const comamndData = { message: { channel, context, message }, user };
+
+      infoCommands.process(comamndData);
+      obsCommands.process(comamndData);
     }
   );
 
