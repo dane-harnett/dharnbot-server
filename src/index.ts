@@ -79,10 +79,10 @@ const main = async () => {
 
       const user = await twitchClient.getUser(context.username);
 
-      const comamndData = { message: { channel, context, message }, user };
+      const commandData = { message: { channel, context, message }, user };
 
-      infoCommands.process(comamndData);
-      obsCommands.process(comamndData);
+      infoCommands.process(commandData);
+      obsCommands.process(commandData);
     }
   );
 

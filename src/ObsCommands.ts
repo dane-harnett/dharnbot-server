@@ -8,6 +8,9 @@ const camHeight = 225;
 const canvasWidth = 1920;
 const canvasHeight = 1080;
 
+const sceneName = "Info Bar Top";
+const camName = "Webcam";
+
 export default class ObsCommands {
   obsClient: ObsClient;
   positionTimeout: undefined | ReturnType<typeof setTimeout>;
@@ -48,8 +51,8 @@ export default class ObsCommands {
       msg === "!cam zoom 200%"
     ) {
       const currentProperties = await this.obsClient.getSceneItemProperties(
-        "Info Bar Top",
-        "Webcam"
+        sceneName,
+        camName
       );
 
       if (!currentProperties) {
@@ -91,15 +94,15 @@ export default class ObsCommands {
       clearTimeout(this.positionTimeout);
     }
     const currentProperties = await this.obsClient.getSceneItemProperties(
-      "Info Bar Top",
-      "Webcam"
+      sceneName,
+      camName
     );
 
     if (!currentProperties) {
       return;
     }
 
-    await this.obsClient.setSceneItemProperties("Info Bar Top", "Webcam", {
+    await this.obsClient.setSceneItemProperties(sceneName, camName, {
       ...currentProperties,
       position: {
         ...currentProperties.position,
@@ -115,26 +118,22 @@ export default class ObsCommands {
       clearTimeout(this.zoomTimeout);
     }
 
-    await this.obsClient.setSceneItemProperties(
-      "Info Bar Top",
-      "Webcam",
-      properties
-    );
+    await this.obsClient.setSceneItemProperties(sceneName, camName, properties);
     this.zoomTimeout = setTimeout(() => {
       this.camZoom100();
     }, 20000);
   }
   async camBottomLeft() {
     const currentProperties = await this.obsClient.getSceneItemProperties(
-      "Info Bar Top",
-      "Webcam"
+      sceneName,
+      camName
     );
 
     if (!currentProperties) {
       return;
     }
 
-    await this.obsClient.setSceneItemProperties("Info Bar Top", "Webcam", {
+    await this.obsClient.setSceneItemProperties(sceneName, camName, {
       ...currentProperties,
       position: {
         ...currentProperties.position,
@@ -145,8 +144,8 @@ export default class ObsCommands {
   }
   async camZoom100() {
     const currentProperties = await this.obsClient.getSceneItemProperties(
-      "Info Bar Top",
-      "Webcam"
+      sceneName,
+      camName
     );
 
     if (!currentProperties) {
@@ -176,10 +175,6 @@ export default class ObsCommands {
       },
     };
 
-    await this.obsClient.setSceneItemProperties(
-      "Info Bar Top",
-      "Webcam",
-      properties
-    );
+    await this.obsClient.setSceneItemProperties(sceneName, camName, properties);
   }
 }
