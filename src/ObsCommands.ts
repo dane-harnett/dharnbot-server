@@ -26,13 +26,13 @@ export default class ObsCommands {
     if (msg === "!cam top-left") {
       await this.applyCamPosition({
         x: 0,
-        y: 80,
+        y: 0,
       });
     }
     if (msg === "!cam top-right") {
       await this.applyCamPosition({
         x: canvasWidth - camWidth,
-        y: 80,
+        y: 0,
       });
     }
     if (msg === "!cam bottom-left") {
@@ -71,11 +71,6 @@ export default class ObsCommands {
       const properties = {
         ...currentProperties,
         crop,
-        position: {
-          ...currentProperties.position,
-          x: 0,
-          y: canvasHeight - camHeight,
-        },
         scale: {
           x:
             camWidth /
@@ -138,7 +133,7 @@ export default class ObsCommands {
       position: {
         ...currentProperties.position,
         x: 0,
-        y: 1080 - 225,
+        y: canvasHeight - camHeight,
       },
     });
   }
@@ -161,11 +156,6 @@ export default class ObsCommands {
     const properties = {
       ...currentProperties,
       crop,
-      position: {
-        ...currentProperties.position,
-        x: 0,
-        y: canvasHeight - camHeight,
-      },
       scale: {
         x:
           camWidth / (currentProperties.sourceWidth - (crop.left + crop.right)),
