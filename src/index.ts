@@ -10,6 +10,7 @@ import ObsCommands from "./ObsCommands";
 import ObsClient from "./ObsClient";
 import EventEmitter from "./EventEmitter";
 import TwitchClient from "./TwitchClient";
+import ReplyCommands from "./ReplyCommands";
 
 require("dotenv").config();
 
@@ -52,8 +53,7 @@ const main = async () => {
 
   client.connect();
 
-  const twitchChatClient = new TwitchChatClient(client);
-  const infoCommands = new InfoCommands(twitchChatClient, eventEmitter);
+  const infoCommands = new InfoCommands(eventEmitter);
 
   const obsWebSocket = new ObsWebSocket();
   await obsWebSocket.connect({
@@ -62,6 +62,9 @@ const main = async () => {
 
   const obsClient = new ObsClient(obsWebSocket);
   const obsCommands = new ObsCommands(obsClient);
+
+  const twitchChatClient = new TwitchChatClient(client);
+  const replyCommands = new ReplyCommands(twitchChatClient);
 
   client.on(
     "message",
@@ -81,6 +84,7 @@ const main = async () => {
 
       const commandData = { message: { channel, context, message }, user };
 
+      replyCommands.process(commandData);
       infoCommands.process(commandData);
       obsCommands.process(commandData);
     }
