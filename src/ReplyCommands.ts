@@ -1,66 +1,55 @@
 import TwitchChatClient from "./TwitchChatClient";
 import ICommandData from "./interfaces/ICommandData";
+import ReplyCommandConfig from "../config/ReplyCommandConfig";
 
+interface ReplyCommandConfig {
+  command: string | ((msg: string) => boolean);
+  message: string | ((msg: string) => string);
+  requireMod?: boolean;
+}
 export default class ReplyCommands {
   twitchClient: TwitchChatClient;
+  commands: ReplyCommandConfig[];
+
   constructor(twitchClient: TwitchChatClient) {
     this.twitchClient = twitchClient;
+    this.commands = ReplyCommandConfig.commands;
   }
+
   process(commandData: ICommandData) {
     const {
       message: { message: msg, channel, context },
     } = commandData;
 
-    if (msg === "!twitter") {
-      this.twitchClient.say(channel, "https://www.twitter.com/daneharnett");
-    }
-    if (msg === "!youtube") {
-      this.twitchClient.say(
-        channel,
-        "https://www.youtube.com/user/daneharnett"
-      );
-    }
-    if (msg === "!youdoneyet repo") {
-      this.twitchClient.say(
-        channel,
-        "https://github.com/dane-harnett/youdoneyet"
-      );
-    }
-    if (msg === "!youdoneyet app") {
-      this.twitchClient.say(
-        channel,
-        "https://youdoneyet.vercel.app/ is the production URL for You Done Yet"
-      );
-    }
-    if (msg === "!dharnbot repo") {
-      this.twitchClient.say(
-        channel,
-        "https://github.com/dane-harnett/dharnbot-server and https://github.com/dane-harnett/dharnbot-client"
-      );
-    }
-    if (msg === "!miro") {
-      this.twitchClient.say(
-        channel,
-        "https://miro.com/app/board/o9J_kqWtSsI=/"
-      );
-    }
+    this.commands.forEach((command) => {
+      if (
+        command.requireMod &&
+        !(context.badges?.broadcaster === "1" || context.mod)
+      ) {
+        return;
+      }
 
-    if (msg === "!schedule") {
-      this.twitchClient.say(
-        channel,
-        "I stream in AEST / GMT+10 timezone. Friday 1800, Saturday 1200, Sunday 1200"
-      );
-    }
+      if (typeof command.command === "string" && command.command === msg) {
+        if (typeof command.message === "string") {
+          this.twitchClient.say(channel, command.message);
+          return;
+        }
+        if (typeof command.message === "function") {
+          this.twitchClient.say(channel, command.message(msg));
+          return;
+        }
+      }
 
-    if (
-      msg.substring(0, 4) === "!so " &&
-      (context.badges?.broadcaster === "1" || context.mod)
-    ) {
-      const username = msg.split(" ")[1];
-      this.twitchClient.say(
-        channel,
-        `Shoutout to friend of the stream - ${username} over at https://twitch.tv/${username}!`
-      );
-    }
+      if (typeof command.command === "function" && command.command(msg)) {
+        if (typeof command.message === "string") {
+          this.twitchClient.say(channel, command.message);
+          return;
+        }
+        if (typeof command.message === "function") {
+          this.twitchClient.say(channel, command.message(msg));
+          return;
+        }
+      }
+    });
   }
 }

@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "concurrently -p name -c \"yellow,magenta\" -n \"tsc,nodemon\" \"npm run watch\" \"npm run start\"",
     "watch": "tsc -w",
-    "start": "nodemon dist/index.js",
+    "start": "nodemon dist/src/index.js",
     "test": "jest",
     "type-check": "tsc"
   },
