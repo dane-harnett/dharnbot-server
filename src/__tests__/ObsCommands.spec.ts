@@ -143,4 +143,46 @@ describe("twitch obs commands", () => {
       sourceWidth: 1920,
     });
   });
+  it("turns the cam on", async () => {
+    const obsClient = ObsClient.createNull();
+    const twitchObs = new ObsCommands(obsClient);
+    const commandData = {
+      message: {
+        channel: "channel",
+        context: { mod: false, username: "username" },
+        message: "!cam on",
+      },
+    };
+    await twitchObs.process(commandData);
+    const sceneName = "Info Bar Top";
+    const itemName = "Webcam";
+    const props = obsClient.getSceneItemProperties(sceneName, itemName);
+
+    expect(props).toEqual({
+      sourceHeight: 1080,
+      sourceWidth: 1920,
+      visible: true,
+    });
+  });
+  it("turns the cam off", async () => {
+    const obsClient = ObsClient.createNull();
+    const twitchObs = new ObsCommands(obsClient);
+    const commandData = {
+      message: {
+        channel: "channel",
+        context: { mod: false, username: "username" },
+        message: "!cam off",
+      },
+    };
+    await twitchObs.process(commandData);
+    const sceneName = "Info Bar Top";
+    const itemName = "Webcam";
+    const props = obsClient.getSceneItemProperties(sceneName, itemName);
+
+    expect(props).toEqual({
+      sourceHeight: 1080,
+      sourceWidth: 1920,
+      visible: false,
+    });
+  });
 });

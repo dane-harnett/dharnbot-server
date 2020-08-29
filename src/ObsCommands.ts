@@ -13,16 +13,24 @@ const camName = "Webcam";
 
 export default class ObsCommands {
   obsClient: ObsClient;
+  visibleTimeout: undefined | ReturnType<typeof setTimeout>;
   positionTimeout: undefined | ReturnType<typeof setTimeout>;
   zoomTimeout: undefined | ReturnType<typeof setTimeout>;
   constructor(obsClient: ObsClient) {
     this.obsClient = obsClient;
+    this.visibleTimeout = undefined;
     this.positionTimeout = undefined;
     this.zoomTimeout = undefined;
   }
   async process(commandData: ICommandData) {
     const msg = commandData.message.message;
 
+    if (msg === "!cam on") {
+      await this.camDisplay(true);
+    }
+    if (msg === "!cam off") {
+      await this.camDisplay(false);
+    }
     if (msg === "!cam top-left") {
       await this.applyCamPosition({
         x: 0,
@@ -82,6 +90,31 @@ export default class ObsCommands {
       };
 
       this.applyCamZoom(properties);
+    }
+  }
+  async camDisplay(onOff: boolean) {
+    if (this.visibleTimeout) {
+      clearTimeout(this.visibleTimeout);
+    }
+
+    const currentProperties = await this.obsClient.getSceneItemProperties(
+      sceneName,
+      camName
+    );
+
+    if (!currentProperties) {
+      return;
+    }
+
+    await this.obsClient.setSceneItemProperties(sceneName, camName, {
+      ...currentProperties,
+      visible: onOff,
+    });
+
+    if (onOff === false) {
+      this.visibleTimeout = setTimeout(() => {
+        this.camDisplay(true);
+      }, 20000);
     }
   }
   async applyCamPosition(position: { x: number; y: number }) {

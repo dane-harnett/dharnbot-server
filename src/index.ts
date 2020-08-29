@@ -36,6 +36,9 @@ const main = async () => {
     eventEmitter.on("INFO_PANEL", (data) => {
       _socket.emit("INFO_PANEL", data);
     });
+    eventEmitter.on("MESSAGE", (data) => {
+      _socket.emit("MESSAGE", data);
+    });
   });
 
   const client = new (tmi.Client as any)({
@@ -87,6 +90,8 @@ const main = async () => {
       replyCommands.process(commandData);
       infoCommands.process(commandData);
       obsCommands.process(commandData);
+
+      eventEmitter.emit("MESSAGE", commandData);
     }
   );
 
