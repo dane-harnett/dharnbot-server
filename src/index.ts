@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { createServer } from "http";
 import socketio from "socket.io";
@@ -25,11 +26,24 @@ const main = async () => {
   );
   await twitchClient.authorize();
 
+  const eventEmitter = EventEmitter.create();
+
+  app.use(express.json());
+
   app.get("/", (_req, res) => {
     res.send("dharnbot-server");
   });
 
-  const eventEmitter = EventEmitter.create();
+  app.options("/api/test-results", cors());
+  app.post("/api/test-results", cors(), (req, res) => {
+    eventEmitter.emit("TEST_RESULTS", req.body);
+    res.json({ status: "ok" });
+  });
+
+  app.get("/api/test-results/reset", (_req, res) => {
+    eventEmitter.emit("RESET_TEST_RESULTS");
+    res.json({ status: "ok" });
+  });
 
   io.on("connection", (_socket) => {
     console.log("a client connected to socket");
@@ -38,6 +52,12 @@ const main = async () => {
     });
     eventEmitter.on("MESSAGE", (data) => {
       _socket.emit("MESSAGE", data);
+    });
+    eventEmitter.on("TEST_RESULTS", (data) => {
+      _socket.emit("TEST_RESULTS", data);
+    });
+    eventEmitter.on("RESET_TEST_RESULTS", (data) => {
+      _socket.emit("RESET_TEST_RESULTS", data);
     });
   });
 
