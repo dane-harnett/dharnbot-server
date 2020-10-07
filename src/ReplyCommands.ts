@@ -3,6 +3,7 @@ import ICommandData from "./interfaces/ICommandData";
 import ReplyCommandConfig from "../config/ReplyCommandConfig";
 
 interface ReplyCommandConfig {
+  aliases?: Array<string>;
   command: string | ((msg: string) => boolean);
   message: string | ((msg: string) => string);
   requireMod?: boolean;
@@ -29,7 +30,10 @@ export default class ReplyCommands {
         return;
       }
 
-      if (typeof command.command === "string" && command.command === msg) {
+      if (
+        (typeof command.command === "string" && command.command === msg) ||
+        (Array.isArray(command.aliases) && command.aliases.includes(msg))
+      ) {
         if (typeof command.message === "string") {
           this.twitchClient.say(channel, command.message);
           return;

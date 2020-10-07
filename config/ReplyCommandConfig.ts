@@ -1,11 +1,27 @@
 export default {
   commands: [
     {
+      command: "!project",
+      message:
+        "I'm working on Opposable - The Thumbnail Builder - using TypeScript, Electron and React, or I'm working on my stream (chatbot, overlays, etc)",
+    },
+    {
+      command: "!today",
+      message:
+        "I'm adding more configuration to DHARNBOT my twitch chatbot and overlay tool.",
+    },
+    {
+      command: "!beats",
+      aliases: ["!music", "!song", "!songs"],
+      message: "I currently playing Streambeats by Harris Heller",
+    },
+    {
       command: "!twitter",
       message: "https://www.twitter.com/daneharnett",
     },
     {
       command: "!youtube",
+      aliases: ["!yt"],
       message: "https://www.youtube.com/user/daneharnett",
     },
     {

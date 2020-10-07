@@ -8,8 +8,22 @@ const camHeight = 225;
 const canvasWidth = 1920;
 const canvasHeight = 1080;
 
-const sceneName = "Info Bar Top";
-const camName = "Webcam";
+const sceneName = "[S] Main scene";
+const camName = "[C] Main camera";
+const CAM_HOME_POSITION = "bottom-right";
+
+type PositionName = "top-left" | "top-right" | "bottom-left" | "bottom-right";
+
+interface Position {
+  x: number;
+  y: number;
+}
+interface PositionsMap {
+  "top-left": Position;
+  "top-right": Position;
+  "bottom-left": Position;
+  "bottom-right": Position;
+}
 
 export default class ObsCommands {
   obsClient: ObsClient;
@@ -31,26 +45,26 @@ export default class ObsCommands {
     if (msg === "!cam off") {
       await this.camDisplay(false);
     }
-    if (msg === "!cam top-left") {
-      await this.applyCamPosition({
-        x: 0,
-        y: 0,
-      });
-    }
-    if (msg === "!cam top-right") {
-      await this.applyCamPosition({
-        x: canvasWidth - camWidth,
-        y: 0,
-      });
-    }
-    if (msg === "!cam bottom-left") {
-      await this.camBottomLeft();
-    }
-    if (msg === "!cam bottom-right") {
-      await this.applyCamPosition({
-        x: canvasWidth - camWidth,
-        y: canvasHeight - camHeight,
-      });
+
+    if (
+      msg === "!cam top-left" ||
+      msg === "!cam top-right" ||
+      msg === "!cam bottom-left" ||
+      msg === "!cam bottom-right"
+    ) {
+      const desiredPosition = msg.split(" ")[1];
+
+      if (
+        desiredPosition === "top-left" ||
+        desiredPosition === "top-right" ||
+        desiredPosition === "bottom-left" ||
+        desiredPosition === "bottom-right"
+      ) {
+        await this.applyCamPosition(desiredPosition);
+        if (msg !== `!cam ${CAM_HOME_POSITION}`) {
+          await this.resetToHomePositionAfterDelay();
+        }
+      }
     }
 
     if (
@@ -117,7 +131,7 @@ export default class ObsCommands {
       }, 20000);
     }
   }
-  async applyCamPosition(position: { x: number; y: number }) {
+  async applyCamPosition(positionName: PositionName) {
     if (this.positionTimeout) {
       clearTimeout(this.positionTimeout);
     }
@@ -130,6 +144,18 @@ export default class ObsCommands {
       return;
     }
 
+    const positions: PositionsMap = {
+      "top-left": { x: 0, y: 0 },
+      "top-right": { x: canvasWidth - camWidth, y: 0 },
+      "bottom-left": { x: 0, y: canvasHeight - camHeight },
+      "bottom-right": {
+        x: canvasWidth - camWidth,
+        y: canvasHeight - camHeight,
+      },
+    };
+
+    const position = positions[positionName];
+
     await this.obsClient.setSceneItemProperties(sceneName, camName, {
       ...currentProperties,
       position: {
@@ -137,8 +163,10 @@ export default class ObsCommands {
         ...position,
       },
     });
-    this.positionTimeout = setTimeout(() => {
-      this.camBottomLeft();
+  }
+  async resetToHomePositionAfterDelay() {
+    this.positionTimeout = setTimeout(async () => {
+      await this.applyCamPosition(CAM_HOME_POSITION);
     }, 20000);
   }
   async applyCamZoom(properties: ObsWebSocket.SceneItemTransform) {
