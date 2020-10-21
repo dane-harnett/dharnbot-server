@@ -7,13 +7,14 @@ export default {
     },
     {
       command: "!today",
+      aliases: ["!whatscrackin"],
       message:
-        "I'm adding more configuration to DHARNBOT my twitch chatbot and overlay tool.",
+        "Today I'm adding the ability to save and load projects in Opposable",
     },
     {
       command: "!beats",
       aliases: ["!music", "!song", "!songs"],
-      message: "I currently playing Streambeats by Harris Heller",
+      message: "I currently playing Soundtrack by Twitch",
     },
     {
       command: "!twitter",
@@ -23,6 +24,11 @@ export default {
       command: "!youtube",
       aliases: ["!yt"],
       message: "https://www.youtube.com/user/daneharnett",
+    },
+    {
+      command: "!github",
+      aliases: ["!gh"],
+      message: "https://github.com/dane-harnett",
     },
     {
       command: "!youdoneyet repo",
@@ -39,21 +45,33 @@ export default {
         "https://github.com/dane-harnett/dharnbot-server and https://github.com/dane-harnett/dharnbot-client",
     },
     {
+      command: "!opposable repo",
+      message: "https://github.com/dane-harnett/opposable",
+    },
+    {
       command: "!miro",
       message: "https://miro.com/app/board/o9J_kqWtSsI=/",
     },
     {
       command: "!schedule",
-      message:
-        "I stream in AEST / GMT+10 timezone. Friday 1800, Saturday 1200, Sunday 1200",
+      message: "Update this",
     },
     {
+      info: "!so {username}",
       command: (msg: string) => msg.startsWith("!so "),
       requireMod: true,
       message: (msg: string) => {
         const username = msg.split(" ")[1];
         return `Shoutout to friend of the stream - ${username} over at https://twitch.tv/${username}!`;
       },
+    },
+    {
+      command: "!snake-most-concurrent",
+      message: "5 - 2020-10-09",
+    },
+    {
+      command: "!discord",
+      message: "https://discord.gg/MBJ8bhN",
     },
   ],
 };

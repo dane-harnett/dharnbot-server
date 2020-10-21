@@ -5,6 +5,7 @@ import ReplyCommandConfig from "../config/ReplyCommandConfig";
 interface ReplyCommandConfig {
   aliases?: Array<string>;
   command: string | ((msg: string) => boolean);
+  info?: string;
   message: string | ((msg: string) => string);
   requireMod?: boolean;
 }
@@ -15,6 +16,15 @@ export default class ReplyCommands {
   constructor(twitchClient: TwitchChatClient) {
     this.twitchClient = twitchClient;
     this.commands = ReplyCommandConfig.commands;
+  }
+
+  getCommandInfoList() {
+    return this.commands.map((rpc) => {
+      if (typeof rpc.command === "string") {
+        return rpc.command;
+      }
+      return rpc.info;
+    });
   }
 
   process(commandData: ICommandData) {

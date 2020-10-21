@@ -103,6 +103,11 @@ const main = async () => {
     ) => {
       if (self) return;
 
+      if (message === "!commands" && process.env.TMI_CHANNEL) {
+        const commands = replyCommands.getCommandInfoList();
+        twitchChatClient.say(process.env.TMI_CHANNEL, commands.join(", "));
+      }
+
       const user = await twitchClient.getUser(context.username);
 
       const commandData = { message: { channel, context, message }, user };
