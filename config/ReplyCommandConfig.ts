@@ -1,3 +1,13 @@
+enum DayNames {
+  Sunday,
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+}
+
 export default {
   commands: [
     {
@@ -7,21 +17,33 @@ export default {
     {
       command: "!today",
       aliases: ["!whatscrackin"],
-      message: (_msg: string) => {
-        const today = new Date();
-        const isMonday = today.getDay() === 1;
-        const isWednesday = today.getDay() === 3;
-        const isFriday = today.getDay() === 5;
-
-        if (isMonday) {
-          return "Monday Game Dev - let's code a game in TypeScript!";
-        } else if (isWednesday) {
-          return "Wednesday Q&A - let's chat about coding stuff hooray!";
-        } else if (isFriday) {
-          return "Friday coding - might be chatbot or overlay or something else!";
-        } else {
-          return "It's an unscheduled stream day";
+      message: (
+        _msg: string,
+        cmd: {
+          days: {
+            Sunday: string;
+            Monday: string;
+            Tuesday: string;
+            Wednesday: string;
+            Thursday: string;
+            Friday: string;
+            Saturday: string;
+          };
         }
+      ) => {
+        const today = new Date();
+        const todaysDayName = DayNames[today.getDay()] as keyof typeof DayNames;
+        return cmd.days[todaysDayName];
+      },
+      days: {
+        Monday: "Monday Game Dev - let's code a game in TypeScript!",
+        Wednesday: "Wednesday Q&A - let's chat about coding stuff hooray!",
+        Friday:
+          "Friday coding - might be chatbot or overlay or something else!",
+        Sunday: "It's an unscheduled stream day",
+        Tuesday: "It's an unscheduled stream day",
+        Thursday: "It's an unscheduled stream day",
+        Saturday: "It's an unscheduled stream day",
       },
     },
     {
