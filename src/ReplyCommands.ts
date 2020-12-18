@@ -41,10 +41,12 @@ export default class ReplyCommands {
       }
 
       if (
-        (typeof command.command === "string" && command.command === msg) ||
+        (typeof command.command === "string" &&
+          command.command.trim().toLowerCase() === msg.trim().toLowerCase()) ||
         (Array.isArray(command.aliases) && command.aliases.includes(msg))
       ) {
         if (typeof command.message === "string") {
+          console.log(`DEBUG: matched command ${command.command} msg=${msg}`);
           this.twitchClient.say(channel, command.message);
           return;
         }
