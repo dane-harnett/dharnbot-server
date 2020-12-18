@@ -7,7 +7,26 @@ export default {
     {
       command: "!today",
       aliases: ["!whatscrackin"],
-      message: "Wednesday Q&A - let's chat about coding stuff hooray!",
+      message: (_msg: string) => {
+        const today = new Date();
+        const isMonday = today.getDay() === 1;
+        const isWednesday = today.getDay() === 3;
+        const isFriday = today.getDay() === 5;
+
+        if (isMonday) {
+          return "Monday Game Dev - let's code a game in TypeScript!";
+        } else if (isWednesday) {
+          return "Wednesday Q&A - let's chat about coding stuff hooray!";
+        } else if (isFriday) {
+          return "Friday coding - might be chatbot or overlay or something else!";
+        } else {
+          return "It's an unscheduled stream day";
+        }
+      },
+    },
+    {
+      command: "!whatscracking",
+      message: "I think you're looking for `!whatscrackin`",
     },
     {
       command: "!values",
