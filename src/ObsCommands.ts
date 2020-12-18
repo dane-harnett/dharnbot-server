@@ -11,6 +11,7 @@ const canvasHeight = 1080;
 const sceneName = "[S] Main scene";
 const camName = "[C] Main camera";
 const CAM_HOME_POSITION = "bottom-right";
+const SECONDARY_CAM_NAME = "[C] Secondary camera";
 
 type PositionName = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
@@ -44,6 +45,12 @@ export default class ObsCommands {
     }
     if (msg === "!cam off") {
       await this.camDisplay(false);
+    }
+    if (msg === "!cam2 on") {
+      await this.camShowHide(true, 1);
+    }
+    if (msg === "!cam2 off") {
+      await this.camShowHide(false, 1);
     }
 
     if (
@@ -106,30 +113,35 @@ export default class ObsCommands {
       this.applyCamZoom(properties);
     }
   }
-  async camDisplay(onOff: boolean) {
+  async camDisplay(onOff: boolean, camIndex: number = 0) {
     if (this.visibleTimeout) {
       clearTimeout(this.visibleTimeout);
     }
 
+    await this.camShowHide(onOff, camIndex);
+
+    if (onOff === false) {
+      this.visibleTimeout = setTimeout(async () => {
+        await this.camShowHide(true, camIndex);
+      }, 20000);
+    }
+  }
+  async camShowHide(onOff: boolean, camIndex: number = 0) {
+    const targetCamName = camIndex === 0 ? camName : SECONDARY_CAM_NAME;
+
     const currentProperties = await this.obsClient.getSceneItemProperties(
       sceneName,
-      camName
+      targetCamName
     );
 
     if (!currentProperties) {
       return;
     }
 
-    await this.obsClient.setSceneItemProperties(sceneName, camName, {
+    await this.obsClient.setSceneItemProperties(sceneName, targetCamName, {
       ...currentProperties,
       visible: onOff,
     });
-
-    if (onOff === false) {
-      this.visibleTimeout = setTimeout(() => {
-        this.camDisplay(true);
-      }, 20000);
-    }
   }
   async applyCamPosition(positionName: PositionName) {
     if (this.positionTimeout) {
