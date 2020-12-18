@@ -2,19 +2,22 @@ export default {
   commands: [
     {
       command: "!project",
-      message:
-        "I'm working on Opposable - The Thumbnail Builder - using TypeScript, Electron and React, or I'm working on my stream (chatbot, overlays, etc)",
+      message: "I'm building a game, what game? Not sure yet.",
     },
     {
       command: "!today",
       aliases: ["!whatscrackin"],
+      message: "Wednesday Q&A - let's chat about coding stuff hooray!",
+    },
+    {
+      command: "!values",
       message:
-        "Today I'm adding the ability to save and load projects in Opposable",
+        "Growth and Excellence - I try to live my live by trying to learn as much as I can, and then trying to be the best at whatever I take on.",
     },
     {
       command: "!beats",
       aliases: ["!music", "!song", "!songs"],
-      message: "I currently playing Soundtrack by Twitch",
+      message: "I'm currently playing Streambeats",
     },
     {
       command: "!twitter",
@@ -54,7 +57,7 @@ export default {
     },
     {
       command: "!schedule",
-      message: "Update this",
+      message: "Generally I stream Mon/Wed/Fri 5pm-7pm AEST",
     },
     {
       info: "!so {username}",
@@ -72,6 +75,15 @@ export default {
     {
       command: "!discord",
       message: "https://discord.gg/MBJ8bhN",
+    },
+    {
+      command: "!camera",
+      message:
+        "I'm borrowing my brother's Sony A7ii (with a Sony 28mm f2 lens), also I have a Logitech Streamcam",
+    },
+    {
+      command: "!dotfiles",
+      message: "https://github.com/dane-harnett/dotfiles",
     },
   ],
 };
