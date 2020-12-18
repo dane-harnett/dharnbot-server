@@ -110,6 +110,19 @@ export default {
       },
     },
     {
+      info: "!dharnbot {question}?",
+      command: (msg: string) =>
+        msg.startsWith("!dharnbot") && msg.endsWith("?"),
+      message: (_msg: string, _cmd: any) => {
+        const random = Math.random();
+        if (random > 0.5) {
+          return "Yes";
+        } else {
+          return "No";
+        }
+      },
+    },
+    {
       command: "!snake-most-concurrent",
       message: "5 - 2020-10-09",
     },
