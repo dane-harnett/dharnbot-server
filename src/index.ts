@@ -1,7 +1,7 @@
 import cors from "cors";
 import express from "express";
 import { createServer } from "http";
-import socketio from "socket.io";
+import socketio, { Socket } from "socket.io";
 import tmi from "tmi.js";
 import ObsWebSocket from "obs-websocket-js";
 
@@ -12,6 +12,7 @@ import ObsClient from "./ObsClient";
 import EventEmitter from "./EventEmitter";
 import TwitchClient from "./TwitchClient";
 import ReplyCommands from "./ReplyCommands";
+import StreamDetailsCommands from "./StreamDetailsCommands";
 
 require("dotenv").config();
 
@@ -45,19 +46,34 @@ const main = async () => {
     res.json({ status: "ok" });
   });
 
-  io.on("connection", (_socket) => {
+  const streamDetailsCommands = new StreamDetailsCommands(eventEmitter);
+
+  io.on("connection", (socket: Socket) => {
     console.log("a client connected to socket");
     eventEmitter.on("INFO_PANEL", (data) => {
-      _socket.emit("INFO_PANEL", data);
+      socket.emit("INFO_PANEL", data);
     });
     eventEmitter.on("MESSAGE", (data) => {
-      _socket.emit("MESSAGE", data);
+      socket.emit("MESSAGE", data);
     });
     eventEmitter.on("TEST_RESULTS", (data) => {
-      _socket.emit("TEST_RESULTS", data);
+      socket.emit("TEST_RESULTS", data);
     });
     eventEmitter.on("RESET_TEST_RESULTS", (data) => {
-      _socket.emit("RESET_TEST_RESULTS", data);
+      socket.emit("RESET_TEST_RESULTS", data);
+    });
+
+    streamDetailsCommands.onConnection(socket);
+
+    socket.on("TWITCH_FOLLOWER_COUNT_REQUEST", async () => {
+      console.log("twitch follower count request received");
+      const userFollows = await twitchClient.getUsersFollows(
+        "daneharnett",
+        "to"
+      );
+      socket.emit("TWITCH_FOLLOWER_COUNT_RESPONSE", {
+        followerCount: userFollows.total,
+      });
     });
   });
 
@@ -115,6 +131,7 @@ const main = async () => {
       replyCommands.process(commandData);
       infoCommands.process(commandData);
       obsCommands.process(commandData);
+      streamDetailsCommands.process(commandData);
 
       eventEmitter.emit("MESSAGE", commandData);
     }

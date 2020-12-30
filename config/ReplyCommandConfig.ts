@@ -11,46 +11,6 @@ enum DayNames {
 export default {
   commands: [
     {
-      command: "!project",
-      message: "I'm building a game, what game? Not sure yet.",
-    },
-    {
-      command: "!today",
-      aliases: ["!whatscrackin"],
-      message: (
-        _msg: string,
-        cmd: {
-          days: {
-            Sunday: string;
-            Monday: string;
-            Tuesday: string;
-            Wednesday: string;
-            Thursday: string;
-            Friday: string;
-            Saturday: string;
-          };
-        }
-      ) => {
-        const today = new Date();
-        const todaysDayName = DayNames[today.getDay()] as keyof typeof DayNames;
-        return cmd.days[todaysDayName];
-      },
-      days: {
-        Monday: "Monday Game Dev - let's code a game in TypeScript!",
-        Wednesday: "Wednesday Q&A - let's chat about coding stuff hooray!",
-        Friday:
-          "Friday coding - might be chatbot or overlay or something else!",
-        Sunday: "It's an unscheduled stream day",
-        Tuesday: "It's an unscheduled stream day",
-        Thursday: "It's an unscheduled stream day",
-        Saturday: "It's an unscheduled stream day",
-      },
-    },
-    {
-      command: "!whatscracking",
-      message: "I think you're looking for `!whatscrackin`",
-    },
-    {
       command: "!values",
       message:
         "Growth and Excellence - I try to live my live by trying to learn as much as I can, and then trying to be the best at whatever I take on.",

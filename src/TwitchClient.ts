@@ -41,4 +41,21 @@ export default class TwitchClient {
 
     return this.cache[path];
   }
+
+  async getUsersFollows(login: string, direction: "from" | "to") {
+    const user = await this.getUser(login);
+    const path = `/users/follows?${direction}_id=${user.id}`;
+
+    const response = await axios.get(`${TWITCH_API_BASE_URL}${path}`, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+        "Content-Type": "application/json",
+        "Client-ID": this.clientId,
+      },
+    });
+
+    this.cache[path] = response.data.data[0];
+
+    return response.data;
+  }
 }
