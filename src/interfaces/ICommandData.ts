@@ -8,5 +8,8 @@ export default interface ICommandData {
     };
     message: string;
   };
-  user?: {};
+  user?: {
+    username: string;
+    profile_image_url: string;
+  };
 }

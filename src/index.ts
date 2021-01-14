@@ -1,4 +1,5 @@
 import cors from "cors";
+import * as dotenv from "dotenv";
 import express from "express";
 import { createServer } from "http";
 import socketio, { Socket } from "socket.io";
@@ -14,7 +15,7 @@ import TwitchClient from "./TwitchClient";
 import ReplyCommands from "./ReplyCommands";
 import StreamDetailsCommands from "./StreamDetailsCommands";
 
-require("dotenv").config();
+dotenv.config();
 
 const main = async () => {
   const app = express();

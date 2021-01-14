@@ -1,13 +1,3 @@
-enum DayNames {
-  Sunday,
-  Monday,
-  Tuesday,
-  Wednesday,
-  Thursday,
-  Friday,
-  Saturday,
-}
-
 export default {
   commands: [
     {

@@ -113,7 +113,7 @@ export default class ObsCommands {
       this.applyCamZoom(properties);
     }
   }
-  async camDisplay(onOff: boolean, camIndex: number = 0) {
+  async camDisplay(onOff: boolean, camIndex = 0) {
     if (this.visibleTimeout) {
       clearTimeout(this.visibleTimeout);
     }
@@ -126,7 +126,7 @@ export default class ObsCommands {
       }, 20000);
     }
   }
-  async camShowHide(onOff: boolean, camIndex: number = 0) {
+  async camShowHide(onOff: boolean, camIndex = 0) {
     const targetCamName = camIndex === 0 ? camName : SECONDARY_CAM_NAME;
 
     const currentProperties = await this.obsClient.getSceneItemProperties(
