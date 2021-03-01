@@ -4,25 +4,21 @@
       "dayName": 1,
       "startHour": 16,
       "endHour": 20,
-      "showTitle": "Game Making Monday",
-      "streamTitle": "Among Us in Pixel Art with TypeScript!"
+      "streamTitle": "!project"
     },
     {
       "dayName": 3,
       "startHour": 16,
       "endHour": 20,
-      "showTitle": "Wednesday Q&A",
-      "streamTitle": "Answering your questions!"
+      "streamTitle": "Q&A"
     },
     {
       "dayName": 5,
       "startHour": 16,
       "endHour": 20,
-      "showTitle": "Friday Free For All",
-      "streamTitle": "Working on a side project"
+      "streamTitle": "Learning Haskell"
     }
   ],
-  "agenda": [],
+  "agenda": ["Learn You a Haskell"],
   "currentAgendaItemIndex": 0
 }
-
