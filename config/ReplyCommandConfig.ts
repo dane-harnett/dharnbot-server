@@ -17,7 +17,7 @@ export default {
     {
       command: "!youtube",
       aliases: ["!yt"],
-      message: "https://www.youtube.com/user/daneharnett",
+      message: "https://www.youtube.com/daneharnett",
     },
     {
       command: "!github",
@@ -86,8 +86,23 @@ export default {
         "I'm borrowing my brother's Sony A7ii (with a Sony 28mm f2 lens), also I have a Logitech Streamcam",
     },
     {
+      aliases: ["!dot", "!config"],
       command: "!dotfiles",
       message: "https://github.com/dane-harnett/dotfiles",
+    },
+    {
+      command: "!project",
+      message: "Dane works on various projects: !opposable, !youdoneyet",
+    },
+    {
+      command: "!opposable",
+      message:
+        "Opposable is a thumbnail builder [TypeScript|React|Electron]: !opposable repo",
+    },
+    {
+      command: "!youdoneyet",
+      message:
+        "You Done Yet is a habit tracker [Next.js|TypeScript|GraphQL]: !youdoneyet repo",
     },
   ],
 };
