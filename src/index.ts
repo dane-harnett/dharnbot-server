@@ -112,6 +112,7 @@ const main = async () => {
       channel: string,
       context: {
         badges?: { broadcaster: "1" | "0" };
+        color?: string;
         mod: boolean;
         username: string;
       },
@@ -127,7 +128,10 @@ const main = async () => {
 
       const user = await twitchClient.getUser(context.username);
 
-      const commandData = { message: { channel, context, message }, user };
+      const commandData = {
+        message: { channel, context, message },
+        user: { ...user, color: context.color },
+      };
 
       replyCommands.process(commandData);
       infoCommands.process(commandData);
