@@ -10,15 +10,15 @@
       "dayName": 3,
       "startHour": 16,
       "endHour": 20,
-      "streamTitle": "Q&A"
+      "streamTitle": "!project"
     },
     {
       "dayName": 5,
       "startHour": 16,
       "endHour": 20,
-      "streamTitle": "Learning Haskell"
+      "streamTitle": "!project"
     }
   ],
-  "agenda": ["Learn You a Haskell"],
+  "agenda": ["The channel is under attack from monsters!"],
   "currentAgendaItemIndex": 0
 }

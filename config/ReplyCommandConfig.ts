@@ -48,7 +48,7 @@ export default {
     },
     {
       command: "!schedule",
-      message: "Generally I stream Mon/Wed/Fri 5pm-7pm AEST",
+      message: "Generally I stream Tue/Wed/Fri 5pm-7pm AEST",
     },
     {
       info: "!so {username}",
@@ -60,9 +60,8 @@ export default {
       },
     },
     {
-      info: "!dharnbot {question}?",
-      command: (msg: string) =>
-        msg.startsWith("!dharnbot") && msg.endsWith("?"),
+      info: "!8ball {question}?",
+      command: (msg: string) => msg.startsWith("!8ball") && msg.endsWith("?"),
       message: (_msg: string, _cmd: any) => {
         const random = Math.random();
         if (random > 0.5) {
@@ -92,7 +91,12 @@ export default {
     },
     {
       command: "!project",
-      message: "Dane works on various projects: !opposable, !youdoneyet",
+      message:
+        "Dane works on various projects: !dharnbot, !opposable, !youdoneyet",
+    },
+    {
+      command: "!dharnbot",
+      message: "dharnbot is Dane's custom twitch chat bot: !dharnbot repo",
     },
     {
       command: "!opposable",
@@ -103,6 +107,24 @@ export default {
       command: "!youdoneyet",
       message:
         "You Done Yet is a habit tracker [Next.js|TypeScript|GraphQL]: !youdoneyet repo",
+    },
+    {
+      info: "!webworks",
+      command: (msg: string) => msg.toLowerCase() === "!webworks",
+      message: (_msg: string, _cmd: any) => {
+        const random = Math.random();
+        if (random <= 0.2) {
+          return "WEBWORKS!";
+        } else if (random <= 0.4) {
+          return "CRANK!";
+        } else if (random <= 0.6) {
+          return "PINEAPPLE!";
+        } else if (random <= 0.8) {
+          return "HNNNNG!";
+        } else {
+          return "PYPR";
+        }
+      },
     },
   ],
 };
