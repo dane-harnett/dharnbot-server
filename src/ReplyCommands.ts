@@ -6,7 +6,7 @@ interface ReplyCommandConfig {
   aliases?: Array<string>;
   command: string | ((msg: string) => boolean);
   info?: string;
-  message: string | ((msg: string, cmd: any) => string);
+  message: string | ((msg: string, cmd: any, commandData: any) => string);
   requireMod?: boolean;
 }
 export default class ReplyCommands {
@@ -52,7 +52,10 @@ export default class ReplyCommands {
           return;
         }
         if (typeof command.message === "function") {
-          this.twitchClient.say(channel, command.message(msg, command));
+          this.twitchClient.say(
+            channel,
+            command.message(msg, command, commandData)
+          );
           return;
         }
       }
@@ -64,7 +67,10 @@ export default class ReplyCommands {
           return;
         }
         if (typeof command.message === "function") {
-          this.twitchClient.say(channel, command.message(msg, command));
+          this.twitchClient.say(
+            channel,
+            command.message(msg, command, commandData)
+          );
           return;
         }
       }
