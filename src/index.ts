@@ -7,11 +7,13 @@ import tmi from "tmi.js";
 import ObsWebSocket from "obs-websocket-js";
 
 import TwitchChatClient from "./TwitchChatClient";
+import DropCommands from "./DropCommands";
 import InfoCommands from "./InfoCommands";
 import ObsCommands from "./ObsCommands";
 import ObsClient from "./ObsClient";
 import EventEmitter from "./EventEmitter";
 import TwitchClient from "./TwitchClient";
+import Randomizer from "./Randomizer";
 import ReplyCommands from "./ReplyCommands";
 import StreamDetailsCommands from "./StreamDetailsCommands";
 
@@ -106,6 +108,17 @@ const main = async () => {
   const twitchChatClient = new TwitchChatClient(client);
   const replyCommands = new ReplyCommands(twitchChatClient);
 
+  const randomizer = new Randomizer();
+  const dropCommands = new DropCommands(randomizer, twitchChatClient);
+
+  const commandProcessors = [
+    replyCommands,
+    dropCommands,
+    infoCommands,
+    obsCommands,
+    streamDetailsCommands,
+  ];
+
   client.on(
     "message",
     async (
@@ -133,10 +146,9 @@ const main = async () => {
         user: { ...user, color: context.color },
       };
 
-      replyCommands.process(commandData);
-      infoCommands.process(commandData);
-      obsCommands.process(commandData);
-      streamDetailsCommands.process(commandData);
+      commandProcessors.forEach((cp) => {
+        cp.process(commandData);
+      });
 
       eventEmitter.emit("MESSAGE", commandData);
     }

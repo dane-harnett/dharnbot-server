@@ -9,6 +9,7 @@ export default interface ICommandData {
     message: string;
   };
   user?: {
+    display_name: string;
     username: string;
     profile_image_url: string;
   };

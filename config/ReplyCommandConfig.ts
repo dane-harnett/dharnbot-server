@@ -126,24 +126,5 @@ export default {
         }
       },
     },
-    {
-      info: "!drop",
-      command: (msg: string) => msg.toLowerCase().indexOf("!drop") === 0,
-      message: (
-        _msg: string,
-        _cmd: any,
-        commandData: { user: { display_name: string } }
-      ) => {
-        const precision = 100;
-        const dropResult =
-          Math.floor(
-            Math.random() * (10 * precision - 1 * precision) + 1 * precision
-          ) /
-          (1 * precision);
-        return `${
-          commandData.user.display_name
-        } your drop score is ${dropResult.toFixed(2)}`;
-      },
-    },
   ],
 };
