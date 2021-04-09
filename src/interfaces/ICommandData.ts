@@ -10,7 +10,7 @@ export default interface ICommandData {
   };
   user?: {
     display_name: string;
-    username: string;
+    login: string;
     profile_image_url: string;
   };
 }
