@@ -126,5 +126,9 @@ export default {
         }
       },
     },
+    {
+      command: "!moonlander",
+      message: "Check out my Moonlander channel point challenge!",
+    },
   ],
 };
