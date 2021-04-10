@@ -3,7 +3,7 @@ import TwitchChatClient from "./TwitchChatClient";
 import ICommandData from "./interfaces/ICommandData";
 
 interface Score {
-  username: string;
+  login: string;
   score: number;
 }
 
@@ -124,7 +124,7 @@ export default class DropCommands {
       }
 
       this.currentGame.drops.set(commandData.user.login, {
-        username: commandData.user.login,
+        login: commandData.user.login,
         score: landingPosition,
       });
 
@@ -146,5 +146,9 @@ export default class DropCommands {
       this.processDrop(commandData);
       return;
     }
+  }
+
+  getCommandInfoList() {
+    return ["!drop"];
   }
 }

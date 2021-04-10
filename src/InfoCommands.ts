@@ -6,6 +6,9 @@ export default class InfoCommands {
   constructor(eventEmitter: EventEmitter) {
     this.eventEmitter = eventEmitter;
   }
+  getCommandInfoList() {
+    return [];
+  }
   process(commandData: ICommandData) {
     const {
       message: { message: msg },

@@ -25,7 +25,7 @@ describe("drop commands", () => {
       user: {
         display_name: "test display_name",
         profile_image_url: "test profile_image_url",
-        username: "test username",
+        login: "test username",
       },
     };
     dropCommands.process(commandData);

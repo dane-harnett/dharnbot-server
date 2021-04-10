@@ -37,6 +37,9 @@ export default class ObsCommands {
     this.positionTimeout = undefined;
     this.zoomTimeout = undefined;
   }
+  getCommandInfoList() {
+    return [];
+  }
   async process(commandData: ICommandData) {
     const msg = commandData.message.message;
 

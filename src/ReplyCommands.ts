@@ -23,7 +23,7 @@ export default class ReplyCommands {
       if (typeof rpc.command === "string") {
         return rpc.command;
       }
-      return rpc.info;
+      return rpc.info || "";
     });
   }
 

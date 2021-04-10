@@ -135,7 +135,10 @@ const main = async () => {
       if (self) return;
 
       if (message === "!commands" && process.env.TMI_CHANNEL) {
-        const commands = replyCommands.getCommandInfoList();
+        const commands = commandProcessors.reduce<string[]>(
+          (acc, cp) => acc.concat(cp.getCommandInfoList()),
+          []
+        );
         twitchChatClient.say(process.env.TMI_CHANNEL, commands.join(", "));
       }
 
