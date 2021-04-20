@@ -15,6 +15,7 @@ import ObsClient from "./ObsClient";
 import EventEmitter from "./EventEmitter";
 import TwitchClient from "./TwitchClient";
 import Randomizer from "./Randomizer";
+import RecurringAnnouncements from "./RecurringAnnouncements";
 import ReplyCommands from "./ReplyCommands";
 import StreamDetailsCommands from "./StreamDetailsCommands";
 
@@ -114,6 +115,11 @@ const main = async () => {
 
   const twitchChatClient = new TwitchChatClient(client);
   const replyCommands = new ReplyCommands(twitchChatClient);
+  const recurringAnnouncements = new RecurringAnnouncements(
+    twitchChatClient,
+    process.env.TMI_CHANNEL || ""
+  );
+  recurringAnnouncements.start();
 
   const randomizer = new Randomizer();
   const dropCommands = new DropCommands(randomizer, twitchChatClient);
