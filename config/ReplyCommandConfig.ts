@@ -1,134 +1,119 @@
-export default {
-  commands: [
-    {
-      command: "!values",
-      message:
-        "Growth and Excellence - I try to live my live by trying to learn as much as I can, and then trying to be the best at whatever I take on.",
+import ReplyCommandConfigCustom from "./ReplyCommandConfigCustom";
+import { CommandConfiguration, Configuration } from "../src/ReplyCommands";
+
+const commands: CommandConfiguration[] = [
+  {
+    command: "!values",
+    message:
+      "Growth and Excellence - I try to live my live by trying to learn as much as I can, and then trying to be the best at whatever I take on.",
+  },
+  {
+    command: "!beats",
+    aliases: ["!music", "!song", "!songs"],
+    message: "I'm currently playing Streambeats",
+  },
+  {
+    command: "!twitter",
+    message: "https://www.twitter.com/daneharnett",
+  },
+  {
+    command: "!youtube",
+    aliases: ["!yt"],
+    message: "https://www.youtube.com/daneharnett",
+  },
+  {
+    command: "!github",
+    aliases: ["!gh"],
+    message: "https://github.com/dane-harnett",
+  },
+  {
+    command: "!youdoneyet repo",
+    message: "https://github.com/dane-harnett/youdoneyet",
+  },
+  {
+    command: "!youdoneyet app",
+    message:
+      "https://youdoneyet.vercel.app/ is the production URL for You Done Yet",
+  },
+  {
+    command: "!dharnbot repo",
+    message:
+      "https://github.com/dane-harnett/dharnbot-server and https://github.com/dane-harnett/dharnbot-client",
+  },
+  {
+    command: "!opposable repo",
+    message: "https://github.com/dane-harnett/opposable",
+  },
+  {
+    command: "!miro",
+    message: "https://miro.com/app/board/o9J_kqWtSsI=/",
+  },
+  {
+    command: "!schedule",
+    message: "Generally I stream Tue/Wed/Fri 5pm-7pm AEST",
+  },
+  {
+    info: "!so {username}",
+    command: (msg: string) => msg.startsWith("!so "),
+    requireMod: true,
+    message: (msg: string) => {
+      const username = msg.split(" ")[1];
+      return `Shoutout to friend of the stream - ${username} over at https://twitch.tv/${username}!`;
     },
-    {
-      command: "!beats",
-      aliases: ["!music", "!song", "!songs"],
-      message: "I'm currently playing Streambeats",
+  },
+  {
+    info: "!8ball {question}?",
+    command: (msg: string) => msg.startsWith("!8ball") && msg.endsWith("?"),
+    message: (_msg: string, _cmd: any) => {
+      const random = Math.random();
+      if (random > 0.5) {
+        return "Yes";
+      } else {
+        return "No";
+      }
     },
-    {
-      command: "!twitter",
-      message: "https://www.twitter.com/daneharnett",
-    },
-    {
-      command: "!youtube",
-      aliases: ["!yt"],
-      message: "https://www.youtube.com/daneharnett",
-    },
-    {
-      command: "!github",
-      aliases: ["!gh"],
-      message: "https://github.com/dane-harnett",
-    },
-    {
-      command: "!youdoneyet repo",
-      message: "https://github.com/dane-harnett/youdoneyet",
-    },
-    {
-      command: "!youdoneyet app",
-      message:
-        "https://youdoneyet.vercel.app/ is the production URL for You Done Yet",
-    },
-    {
-      command: "!dharnbot repo",
-      message:
-        "https://github.com/dane-harnett/dharnbot-server and https://github.com/dane-harnett/dharnbot-client",
-    },
-    {
-      command: "!opposable repo",
-      message: "https://github.com/dane-harnett/opposable",
-    },
-    {
-      command: "!miro",
-      message: "https://miro.com/app/board/o9J_kqWtSsI=/",
-    },
-    {
-      command: "!schedule",
-      message: "Generally I stream Tue/Wed/Fri 5pm-7pm AEST",
-    },
-    {
-      info: "!so {username}",
-      command: (msg: string) => msg.startsWith("!so "),
-      requireMod: true,
-      message: (msg: string) => {
-        const username = msg.split(" ")[1];
-        return `Shoutout to friend of the stream - ${username} over at https://twitch.tv/${username}!`;
-      },
-    },
-    {
-      info: "!8ball {question}?",
-      command: (msg: string) => msg.startsWith("!8ball") && msg.endsWith("?"),
-      message: (_msg: string, _cmd: any) => {
-        const random = Math.random();
-        if (random > 0.5) {
-          return "Yes";
-        } else {
-          return "No";
-        }
-      },
-    },
-    {
-      command: "!snake-most-concurrent",
-      message: "5 - 2020-10-09",
-    },
-    {
-      command: "!discord",
-      message: "https://discord.gg/MBJ8bhN",
-    },
-    {
-      command: "!camera",
-      message:
-        "I'm borrowing my brother's Sony A7ii (with a Sony 28mm f2 lens), also I have a Logitech Streamcam",
-    },
-    {
-      aliases: ["!dot", "!config"],
-      command: "!dotfiles",
-      message: "https://github.com/dane-harnett/dotfiles",
-    },
-    {
-      command: "!project",
-      message:
-        "Dane works on various projects: !dharnbot, !opposable, !youdoneyet",
-    },
-    {
-      command: "!dharnbot",
-      message: "dharnbot is Dane's custom twitch chat bot: !dharnbot repo",
-    },
-    {
-      command: "!opposable",
-      message:
-        "Opposable is a thumbnail builder [TypeScript|React|Electron]: !opposable repo",
-    },
-    {
-      command: "!youdoneyet",
-      message:
-        "You Done Yet is a habit tracker [Next.js|TypeScript|GraphQL]: !youdoneyet repo",
-    },
-    {
-      info: "!webworks",
-      command: (msg: string) => msg.toLowerCase() === "!webworks",
-      message: (_msg: string, _cmd: any) => {
-        const random = Math.random();
-        if (random <= 0.2) {
-          return "WEBWORKS!";
-        } else if (random <= 0.4) {
-          return "CRANK!";
-        } else if (random <= 0.6) {
-          return "PINEAPPLE!";
-        } else if (random <= 0.8) {
-          return "HNNNNG!";
-        } else {
-          return "PYPR";
-        }
-      },
-    },
-    {
-      command: "!moonlander",
-      message: "Check out my Moonlander channel point challenge!",
-    },
-  ],
+  },
+  {
+    command: "!snake-most-concurrent",
+    message: "5 - 2020-10-09",
+  },
+  {
+    command: "!discord",
+    message: "https://discord.gg/MBJ8bhN",
+  },
+  {
+    command: "!camera",
+    message:
+      "I'm borrowing my brother's Sony A7ii (with a Sony 28mm f2 lens), also I have a Logitech Streamcam",
+  },
+  {
+    aliases: ["!dot", "!config"],
+    command: "!dotfiles",
+    message: "https://github.com/dane-harnett/dotfiles",
+  },
+  {
+    command: "!project",
+    message:
+      "Dane works on various projects: !dharnbot, !opposable, !youdoneyet",
+  },
+  {
+    command: "!dharnbot",
+    message: "dharnbot is Dane's custom twitch chat bot: !dharnbot repo",
+  },
+  {
+    command: "!opposable",
+    message:
+      "Opposable is a thumbnail builder [TypeScript|React|Electron]: !opposable repo",
+  },
+  {
+    command: "!youdoneyet",
+    message:
+      "You Done Yet is a habit tracker [Next.js|TypeScript|GraphQL]: !youdoneyet repo",
+  },
+];
+
+const config: Configuration = {
+  commands: commands.concat(ReplyCommandConfigCustom.commands),
 };
+
+export default config;

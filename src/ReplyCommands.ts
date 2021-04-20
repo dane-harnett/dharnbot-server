@@ -2,16 +2,21 @@ import TwitchChatClient from "./TwitchChatClient";
 import ICommandData from "./interfaces/ICommandData";
 import ReplyCommandConfig from "../config/ReplyCommandConfig";
 
-interface ReplyCommandConfig {
+export interface CommandConfiguration {
   aliases?: Array<string>;
   command: string | ((msg: string) => boolean);
   info?: string;
   message: string | ((msg: string, cmd: any, commandData: any) => string);
   requireMod?: boolean;
 }
+
+export interface Configuration {
+  commands: CommandConfiguration[];
+}
+
 export default class ReplyCommands {
   twitchClient: TwitchChatClient;
-  commands: ReplyCommandConfig[];
+  commands: CommandConfiguration[];
 
   constructor(twitchClient: TwitchChatClient) {
     this.twitchClient = twitchClient;
