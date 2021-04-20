@@ -8,6 +8,7 @@ import ObsWebSocket from "obs-websocket-js";
 
 import TwitchChatClient from "./TwitchChatClient";
 import DropCommands from "./DropCommands";
+import HighlightedMessageCommands from "./HighlightedMessageCommands";
 import InfoCommands from "./InfoCommands";
 import ObsCommands from "./ObsCommands";
 import ObsClient from "./ObsClient";
@@ -53,6 +54,9 @@ const main = async () => {
 
   io.on("connection", (socket: Socket) => {
     console.log("a client connected to socket");
+    eventEmitter.on("HIGHLIGHTED_MESSAGE", (data) => {
+      socket.emit("HIGHLIGHTED_MESSAGE", data);
+    });
     eventEmitter.on("INFO_PANEL", (data) => {
       socket.emit("INFO_PANEL", data);
     });
@@ -96,6 +100,9 @@ const main = async () => {
   client.connect();
 
   const infoCommands = new InfoCommands(eventEmitter);
+  const highlightedMessageCommands = new HighlightedMessageCommands(
+    eventEmitter
+  );
 
   const obsWebSocket = new ObsWebSocket();
   await obsWebSocket.connect({
@@ -114,6 +121,7 @@ const main = async () => {
   const commandProcessors = [
     replyCommands,
     dropCommands,
+    highlightedMessageCommands,
     infoCommands,
     obsCommands,
     streamDetailsCommands,
@@ -128,6 +136,7 @@ const main = async () => {
         color?: string;
         mod: boolean;
         username: string;
+        "msg-id": "highlighted-message";
       },
       message: string,
       self: boolean

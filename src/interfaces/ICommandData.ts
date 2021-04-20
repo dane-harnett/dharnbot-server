@@ -5,6 +5,7 @@ export default interface ICommandData {
       badges?: { broadcaster: "1" | "0" };
       mod: boolean;
       username: string;
+      "msg-id"?: "highlighted-message";
     };
     message: string;
   };
