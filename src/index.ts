@@ -140,6 +140,7 @@ const main = async () => {
       context: {
         badges?: { broadcaster: "1" | "0" };
         color?: string;
+        emotes?: Record<string, string[]>;
         mod: boolean;
         username: string;
         "msg-id": "highlighted-message";
@@ -169,6 +170,10 @@ const main = async () => {
       });
 
       eventEmitter.emit("MESSAGE", commandData);
+      console.log(
+        "@@@ emitting MESSAGE with",
+        commandData.message.context.emotes
+      );
     }
   );
 
