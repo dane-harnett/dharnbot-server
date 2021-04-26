@@ -110,6 +110,11 @@ const commands: CommandConfiguration[] = [
     message:
       "You Done Yet is a habit tracker [Next.js|TypeScript|GraphQL]: !youdoneyet repo",
   },
+  {
+    command: "!challenge",
+    message:
+      "No current community channel point challenge... If you have a suggestion, let me know!",
+  },
 ];
 
 const config: Configuration = {
