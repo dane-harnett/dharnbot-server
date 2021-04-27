@@ -87,6 +87,12 @@ const commands: CommandConfiguration[] = [
       "I'm borrowing my brother's Sony A7ii (with a Sony 28mm f2 lens), also I have a Logitech Streamcam",
   },
   {
+    aliases: ["!mic", "!mike"],
+    command: "!microphone",
+    message:
+      "I'm using a Blue Yeti Nano USB microphone, what do you think of the audio?",
+  },
+  {
     aliases: ["!dot", "!config"],
     command: "!dotfiles",
     message: "https://github.com/dane-harnett/dotfiles",
