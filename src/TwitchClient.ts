@@ -54,8 +54,6 @@ export default class TwitchClient {
       },
     });
 
-    this.cache[path] = response.data.data[0];
-
     return response.data;
   }
 }
