@@ -121,6 +121,10 @@ const commands: CommandConfiguration[] = [
     message:
       "No current community channel point challenge... If you have a suggestion, let me know!",
   },
+  {
+    command: "!lurk",
+    message: "Thanks for the lurk, chat soon!",
+  },
 ];
 
 const config: Configuration = {
