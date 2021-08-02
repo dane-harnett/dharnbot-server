@@ -81,6 +81,7 @@ const main = async () => {
       );
       socket.emit("TWITCH_FOLLOWER_COUNT_RESPONSE", {
         followerCount: userFollows.total,
+        latestFollower: userFollows.data[0],
       });
     });
   });
@@ -116,6 +117,7 @@ const main = async () => {
   const twitchChatClient = new TwitchChatClient(client);
   const replyCommands = new ReplyCommands(twitchChatClient);
   const recurringAnnouncements = new RecurringAnnouncements(
+    eventEmitter,
     twitchChatClient,
     process.env.TMI_CHANNEL || ""
   );
@@ -170,10 +172,6 @@ const main = async () => {
       });
 
       eventEmitter.emit("MESSAGE", commandData);
-      console.log(
-        "@@@ emitting MESSAGE with",
-        commandData.message.context.emotes
-      );
     }
   );
 
