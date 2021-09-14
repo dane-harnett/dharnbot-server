@@ -74,10 +74,6 @@ const commands: CommandConfiguration[] = [
     },
   },
   {
-    command: "!snake-most-concurrent",
-    message: "5 - 2020-10-09",
-  },
-  {
     command: "!discord",
     message: "https://discord.gg/MBJ8bhN",
   },
@@ -124,6 +120,12 @@ const commands: CommandConfiguration[] = [
   {
     command: "!lurk",
     message: "Thanks for the lurk, chat soon!",
+  },
+  {
+    command: "!sunglasses",
+    aliases: ["!sunnies"],
+    message:
+      "This ring light is bright so I wear Rayban RB4135 Justin Classic. Redeem the remove sunglasses channel point reward!",
   },
 ];
 
