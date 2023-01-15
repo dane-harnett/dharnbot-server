@@ -3,6 +3,11 @@ import { CommandConfiguration, Configuration } from "../src/ReplyCommands";
 
 const commands: CommandConfiguration[] = [
   {
+    command: "!pomo",
+    message:
+      "During coworking streams I'll be working with the pomodoro technique with 30 min timer of focused work and 5-10 mins of break and chat interaction.",
+  },
+  {
     command: "!values",
     message:
       "Growth and Excellence - I try to live my live by trying to learn as much as I can, and then trying to be the best at whatever I take on.",
@@ -126,6 +131,12 @@ const commands: CommandConfiguration[] = [
     aliases: ["!sunnies"],
     message:
       "This ring light is bright so I wear Rayban RB4135 Justin Classic. Redeem the remove sunglasses channel point reward!",
+  },
+  {
+    command: "!time",
+    message: () => {
+      return `The local time is ${Date().toLocaleString()}`;
+    },
   },
 ];
 
