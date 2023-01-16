@@ -69,7 +69,7 @@ const commands: CommandConfiguration[] = [
   {
     info: "!8ball {question}?",
     command: (msg: string) => msg.startsWith("!8ball") && msg.endsWith("?"),
-    message: (_msg: string, _cmd: any) => {
+    message: () => {
       const random = Math.random();
       if (random > 0.5) {
         return "Yes";

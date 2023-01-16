@@ -6,7 +6,13 @@ export interface CommandConfiguration {
   aliases?: Array<string>;
   command: string | ((msg: string) => boolean);
   info?: string;
-  message: string | ((msg: string, cmd: any, commandData: any) => string);
+  message:
+    | string
+    | ((
+        msg: string,
+        cmd: CommandConfiguration,
+        commandData: ICommandData
+      ) => string);
   requireMod?: boolean;
 }
 
@@ -23,7 +29,7 @@ export default class ReplyCommands {
     this.commands = ReplyCommandConfig.commands;
   }
 
-  getCommandInfoList() {
+  getCommandInfoList(): string[] {
     return this.commands.map((rpc) => {
       if (typeof rpc.command === "string") {
         return rpc.command;
@@ -32,7 +38,7 @@ export default class ReplyCommands {
     });
   }
 
-  process(commandData: ICommandData) {
+  process(commandData: ICommandData): void {
     const {
       message: { message: msg, channel, context },
     } = commandData;
