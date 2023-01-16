@@ -47,7 +47,6 @@ export default class DropCommands {
       drops: new Map(),
       dropZone,
     };
-    console.log(this.currentGame);
   }
 
   resetGame() {

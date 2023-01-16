@@ -19,6 +19,8 @@ import RecurringAnnouncements from "./RecurringAnnouncements";
 import ReplyCommands from "./ReplyCommands";
 import StreamDetailsCommands from "./StreamDetailsCommands";
 
+import { CommandProcessors } from "./types";
+
 dotenv.config();
 
 const main = async () => {
@@ -107,12 +109,22 @@ const main = async () => {
   );
 
   const obsWebSocket = new ObsWebSocket();
-  await obsWebSocket.connect({
-    address: process.env.OBS_ADDRESS,
-  });
+  let isObsWebSocketConnected = false;
+  try {
+    await obsWebSocket.connect({
+      address: process.env.OBS_ADDRESS,
+    });
+    isObsWebSocketConnected = true;
+  } catch (err) {
+    console.error("*** UNABLE TO CONNECT TO OBS WEBSOCKET ***");
+    // fail silently
+  }
 
-  const obsClient = new ObsClient(obsWebSocket);
-  const obsCommands = new ObsCommands(obsClient);
+  let obsClient, obsCommands;
+  if (isObsWebSocketConnected) {
+    obsClient = new ObsClient(obsWebSocket);
+    obsCommands = new ObsCommands(obsClient);
+  }
 
   const twitchChatClient = new TwitchChatClient(client);
   const replyCommands = new ReplyCommands(twitchChatClient);
@@ -126,14 +138,17 @@ const main = async () => {
   const randomizer = new Randomizer();
   const dropCommands = new DropCommands(randomizer, twitchChatClient);
 
-  const commandProcessors = [
+  const commandProcessors: CommandProcessors = [
     replyCommands,
     dropCommands,
     highlightedMessageCommands,
     infoCommands,
-    obsCommands,
     streamDetailsCommands,
   ];
+
+  if (isObsWebSocketConnected && obsCommands) {
+    commandProcessors.push(obsCommands);
+  }
 
   client.on(
     "message",
