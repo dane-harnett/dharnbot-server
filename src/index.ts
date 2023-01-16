@@ -4,6 +4,7 @@ import express from "express";
 import { createServer } from "http";
 import socketio, { Socket } from "socket.io";
 import tmi from "tmi.js";
+import type { ChatUserstate } from "tmi.js";
 import ObsWebSocket from "obs-websocket-js";
 
 import TwitchChatClient from "./TwitchChatClient";
@@ -88,7 +89,12 @@ const main = async () => {
     });
   });
 
-  const client = new (tmi.Client as any)({
+  if (typeof process.env.TMI_CHANNEL !== "string") {
+    console.error("*** process.env.TMI_CHANNEL is not a string ***");
+    return;
+  }
+
+  const client = new tmi.Client({
     options: { debug: true },
     connection: {
       secure: true,
@@ -154,14 +160,7 @@ const main = async () => {
     "message",
     async (
       channel: string,
-      context: {
-        badges?: { broadcaster: "1" | "0" };
-        color?: string;
-        emotes?: Record<string, string[]>;
-        mod: boolean;
-        username: string;
-        "msg-id": "highlighted-message";
-      },
+      context: ChatUserstate,
       message: string,
       self: boolean
     ) => {
@@ -173,6 +172,10 @@ const main = async () => {
           []
         );
         twitchChatClient.say(process.env.TMI_CHANNEL, commands.join(", "));
+      }
+
+      if (typeof context.username !== "string") {
+        return;
       }
 
       const user = await twitchClient.getUser(context.username);

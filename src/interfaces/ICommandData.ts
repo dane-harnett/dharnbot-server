@@ -1,12 +1,9 @@
+import type { ChatUserstate } from "tmi.js";
+
 export default interface ICommandData {
   message: {
     channel: string;
-    context: {
-      badges?: { broadcaster: "1" | "0" };
-      mod: boolean;
-      username: string;
-      "msg-id"?: "highlighted-message";
-    };
+    context: ChatUserstate;
     message: string;
   };
   user?: {
